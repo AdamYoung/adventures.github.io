@@ -63,6 +63,9 @@ import gsap from 'gsap'
 import { Bounce } from 'gsap'
 import RailsSlider from './rails_slider.vue'
 
+const config = useRuntimeConfig()
+const baseURL = config.public.baseURL
+
 // Generate video arrays
 const generateVideos = (start: number, count: number) => 
   Array.from({ length: count }, (_, i) => ({
