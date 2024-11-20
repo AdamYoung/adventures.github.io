@@ -29,8 +29,8 @@
       <template #left-item="{ item }">
         <div class="video-item">
           <video
-            :src="`/page${item.id}.mp4`"
-            :poster="`/page${item.id}.png`"
+            :src="`${baseURL}page${item.id}.mp4`"
+            :poster="`${baseURL}page${item.id}.png`"
             preload="auto"
             autoplay
             muted
@@ -43,8 +43,8 @@
       <template #right-item="{ item }">
         <div class="video-item">
           <video
-            :src="`/page${item.id}.mp4`"
-            :poster="`/page${item.id}.png`"
+            :src="`${baseURL}page${item.id}.mp4`"
+            :poster="`${baseURL}page${item.id}.png`"
             preload="auto"
             autoplay
             muted
