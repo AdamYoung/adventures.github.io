@@ -102,6 +102,37 @@ const timeline = ref<gsap.core.Timeline>()
 
 const isPaused = ref(false)
 const currentTime = ref(0)
+const isPortrait = ref(true);
+const showOrientationOverlay = ref(false);
+
+const perspective = ref(3000); // Increased perspective for larger view
+const windowWidth = ref(1920);
+const windowHeight = ref(1080);
+
+// Add orientation check function
+const checkOrientation = () => {
+  if (typeof window !== 'undefined') {
+    const isPortraitMode = window.innerHeight > window.innerWidth;
+    isPortrait.value = isPortraitMode;
+    showOrientationOverlay.value = isPortraitMode;
+    isPaused.value = isPortraitMode;
+    
+    if (!isPortraitMode && isPaused.value) {
+      isPaused.value = false;      
+    }
+  }
+};
+
+// Update window dimensions function
+const updateWindowDimensions = () => {
+  if (typeof window !== 'undefined') {
+    windowWidth.value = window.innerWidth;
+    windowHeight.value = window.innerHeight;
+    
+    // Update perspective based on window width for better mobile experience
+    perspective.value = Math.min(2200, window.innerWidth * 1.5);
+  }
+};
 
 // Add easing options
 const easingOptions = [
@@ -329,6 +360,24 @@ const onItemHover = (target: HTMLElement, entering: boolean) => {
 }
 
 onMounted(() => {
+  updateWindowDimensions();
+  checkOrientation();   
+
+  window.addEventListener('resize', () => {
+    updateWindowDimensions();
+    checkOrientation();
+  });
+  
+  // Add orientation change event listener
+  window.addEventListener('orientationchange', () => {
+    setTimeout(checkOrientation, 100); // Small delay to ensure proper dimension updates
+  });
+
+  // Only start animation if not in portrait mode
+  if (!isPortrait.value) {
+    //animate();
+  }
+
   initializeAnimation()
   if (audioPlayer.value) {
     audioPlayer.value.volume = 0.5
@@ -338,6 +387,10 @@ onMounted(() => {
 // Cleanup on unmount
 onUnmounted(() => {
   timeline.value?.kill()
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('resize', updateWindowDimensions);
+    window.removeEventListener('orientationchange', checkOrientation);
+  }  
 })
 </script>
 
@@ -364,7 +417,11 @@ onUnmounted(() => {
   transform: scale(1.5);  
   transition: transform 0.3s ease;
 }
-
+@media (max-width: 1024px) {
+   .rails-slider.hasHover .rail-item.isHover :deep(.video-item){   
+       transform: scale(2);  
+   }
+}
 .guide-lines {
   position: absolute;
   top: 0;

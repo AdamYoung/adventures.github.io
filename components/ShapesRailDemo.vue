@@ -79,6 +79,10 @@ const rightVideos = generateVideos(4, 3)  // page4.mp4 - page6.mp4
 const logo = ref<HTMLImageElement>()
 
 onMounted(() => {
+  var topLogo = "15%";
+  if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+    topLogo = "2%";
+  }
   if (logo.value) {
     gsap.fromTo(logo.value, 
       {
@@ -93,7 +97,7 @@ onMounted(() => {
         onComplete: () => {
           // Move logo up
           gsap.to(logo.value, {
-            top: "25%",
+            top: topLogo,
             duration: 1,
             delay: 0.5,
             ease: "power2.inOut",
@@ -174,5 +178,23 @@ onMounted(() => {
   font-family: Arial, sans-serif;
   letter-spacing: 0.1em;
   padding: 0 0.05em;
+}
+
+@media (max-width: 1024px) {
+  .intro-logo {
+    width: 40vw;
+    top: 35%;
+  }
+  .video-item {
+    width: 45vw;
+    height: auto;
+  }
+  .video-item video {
+    width: 100%;
+    height: auto;
+  }
+  .coming-soon {
+    top:75%; 
+  }
 }
 </style>
