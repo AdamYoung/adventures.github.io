@@ -3,11 +3,11 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   ssr: false,
-  target: 'static',
   plugins: [
     '~/plugins/gsap.client.ts'
   ],  
   app: {
+    baseURL: '/adventures.github.io/',
     head: {
       link: [
         {
