@@ -14,8 +14,5 @@ export default defineNuxtConfig({
         }
       ]
     }
-  },
-  router: {
-    base: '/adventures/'  // Replace <YOUR_REPOSITORY_NAME> with your repo name
   }
 })
