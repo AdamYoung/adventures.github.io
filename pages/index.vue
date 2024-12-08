@@ -22,9 +22,9 @@ const assetPreloader = useAssetPreloader();
 
 // Generate assets array for a specific page
 const getPageAssets = (pageNum) => [
-  { type: 'image', src: `/page${pageNum}.png` },
-  { type: 'audio', src: `/page${pageNum}.mp3` },
-  { type: 'video', src: `/page${pageNum}.mp4` }
+  { type: 'image', src: `page${pageNum}.png` },
+  { type: 'audio', src: `page${pageNum}.mp3` },
+  { type: 'video', src: `page${pageNum}.mp4` }
 ];
 
 // Load pages sequentially
@@ -50,7 +50,7 @@ const handleComplete = () => {
     height: 0,
     opacity: 0,
     duration: COLLAPSE_DURATION,
-    onComplete: () => navigateTo('/story')
+    onComplete: () => navigateTo('/storyNew')
   })
 }
 </script>

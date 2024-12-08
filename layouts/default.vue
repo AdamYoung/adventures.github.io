@@ -24,7 +24,8 @@
       <div class="menu-links">
         <NuxtLink to="/" @click="toggleMenu">Home</NuxtLink>
         <NuxtLink to="/shapes" @click="toggleMenu">Teaser</NuxtLink>
-        <NuxtLink to="/story" @click="toggleMenu">Story</NuxtLink>
+        <NuxtLink to="/storyNew" @click="toggleMenu">Story</NuxtLink>        
+        <NuxtLink to="/story" @click="toggleMenu">Story (Orig)</NuxtLink>
       </div>
     </div>
     <slot />
