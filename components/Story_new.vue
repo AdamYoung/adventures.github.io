@@ -818,7 +818,12 @@ video.slide-media.video-ready {
     font-size: clamp(8px, 2vw, 10px);
   }
 }
-
+@media (max-height: 480px) {
+   .control-button{ transform:scale(0.7) !important; }
+   .control-button.music-toggle {
+     bottom: clamp(3rem, 10vw, 2rem)
+   }
+}
 @media (max-width: 480px) {
   .slide-text {
     width: 70%;
