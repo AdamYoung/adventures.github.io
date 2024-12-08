@@ -371,16 +371,16 @@ function toggleSpeech() {
 
 .slide-text {
   position: absolute;
-  bottom: max(3%, 20px);
-  width: min(98%, 1200px);
+  bottom: max(2%, 10px);
+  width: min(82%, 800px);
   margin: 0 auto;
   left: 0;
   right: 0;
   text-align: center;
-  font-size: clamp(1rem, 4vw, 2rem);
+  font-size: clamp(0.75rem, 2.2vw, 1.4rem);
   color: rgba(255, 255, 255, 0.9);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-  padding: 1rem;
+  padding: clamp(0.4rem, 1.5vh, 0.8rem) clamp(2.5rem, 6vw, 4rem);
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(2px);
@@ -438,11 +438,11 @@ function toggleSpeech() {
 }
 
 .control-button.left {
-  left: 1rem;
+  left: max(0.5rem, 2%);
 }
 
 .control-button.right {
-  right: 1rem;
+  right: max(0.5rem, 2%);
 }
 
 .chevron {
@@ -455,9 +455,9 @@ function toggleSpeech() {
 .control-button.auto-play,
 .control-button.replay {
   position: fixed;
-  bottom: 2rem;
-  width: 48px;
-  height: 48px;
+  bottom: max(0.5rem, 2%);
+  width: clamp(36px, 8vw, 48px);
+  height: clamp(36px, 8vw, 48px);
   background: rgba(0, 0, 0, 0.5);
   border: none;
   border-radius: 50%;
@@ -474,11 +474,11 @@ function toggleSpeech() {
 }
 
 .control-button.auto-play {
-  right: 2rem;
+  right: max(0.5rem, 2%);
 }
 
 .control-button.replay {
-  right: 6rem;
+  right: clamp(3.5rem, 12vw, 6rem);
 }
 
 .control-button.auto-play:hover,
@@ -550,16 +550,33 @@ video.slide-media.video-ready {
 }
 
 @media (max-width: 768px) {
+  .slide-text {
+    width: 76%;
+    bottom: max(2%, 10px);
+    padding: 0.4rem clamp(2rem, 4vw, 2.5rem);
+    font-size: clamp(0.7rem, 2vw, 1.2rem);
+  }
+  
   .control-button {
-    padding: 0.5rem;
+    padding: 0.4rem;
   }
-  
-  .control-button.left {
-    left: 0.5rem;
+
+  .control-button.auto-play svg,
+  .control-button.replay svg,
+  .control-button.speech-toggle svg {
+    width: clamp(18px, 4vw, 24px);
+    height: clamp(18px, 4vw, 24px);
   }
-  
-  .control-button.right {
-    right: 0.5rem;
+
+  .control-button.auto-play span {
+    font-size: clamp(8px, 2vw, 12px);
+  }
+}
+
+@media (max-width: 480px) {
+  .slide-text {
+    width: 70%;
+    padding: 0.3rem clamp(1.5rem, 3vw, 2rem);
   }
 }
 .control-button.auto-play span{
@@ -574,10 +591,10 @@ video.slide-media.video-ready {
 /* Replace the speech-toggle button styles */
 .control-button.speech-toggle {
   position: fixed;
-  bottom: 2rem;
-  left: 2rem;
-  width: 48px;
-  height: 48px;
+  bottom: max(0.5rem, 2%);
+  left: max(0.5rem, 2%);
+  width: clamp(36px, 8vw, 48px);
+  height: clamp(36px, 8vw, 48px);
   background: rgba(0, 0, 0, 0.5);
   border: none;
   border-radius: 50%;
