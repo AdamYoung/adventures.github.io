@@ -1,20 +1,30 @@
 <template>
-  <div class="site-container">
-    <ShapesRailDemo />
-  </div>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
-<script setup>
-// Remove import as Nuxt 3 auto-imports components
 
-var  slides = [
-        {image:"page1.png",video:"page1.mp4",text:"In a house by the hill where the wildflowers sway, Lived a baby and her husky who loved to play all day."},
-        {image:"page2.png",video:"page2.mp4",text:"They danced with the clouds and chased butterflies, Painting the day with the colors of skies."},
-        {image:"page3.png",video:"page3.mp4",text:"One morning they set off to see what they'd find, Through forests so lush and paths that wind."},        
-        {image:"page4.png",video:"page4.mp4",text:"They sailed on a leaf down a glistening stream, Chasing the echoes of a faraway dream"},
-        {image:"page5.png",video:"page5.mp4",text:"They climbed a tall tree to see the world wide, Discovering wonders from their perch up high."},
-        {image:"page6.png",video:"page6.mp4",text:"As stars peeked out and the sun said goodnight, They headed back home by the moon's soft light."},
-      ]
+<script setup lang="ts">
+interface PreloadAsset {
+  type: 'image' | 'audio' | 'video';
+  src: string;
+}
+
+const router = useRouter();
+const assetPreloader = useAssetPreloader();
+
+router.beforeEach((to, from, next) => {
+  const assets = to.meta.preloadAssets as PreloadAsset[] | undefined;
+  
+  if (assets) {
+    assetPreloader.queueBatch(assets, () => {
+      console.log(`Finished preloading assets for route: ${to.path}`);
+    });
+  }
+  next();
+});
 </script>
+
 <style>
 :root {
   --font-editorial: "Editorial New", serif;
@@ -30,10 +40,5 @@ body {
   font-optical-sizing: auto;
   font-weight: normal;
   font-style: normal;  
-}
-
-.site-container {
-  min-height: 100vh;
-  background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
 }
 </style>

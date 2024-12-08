@@ -5,6 +5,14 @@
       <source src="/Mya_and_Kita_Adventure.mp3" type="audio/mpeg">
     </audio>
 
+    <!-- Add orientation overlay -->
+    <div v-if="showOrientationOverlay" class="orientation-overlay">
+      <div class="orientation-message">
+        <i class="rotate-phone-icon">📱</i>
+        <p>Please rotate your device to landscape mode for the best experience</p>
+      </div>
+    </div>
+
     <!-- SVG Guidelines with Paths -->
     <svg class="guide-lines" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
       <path id="leftPath"
@@ -499,5 +507,37 @@ onUnmounted(() => {
   opacity: 0.8;
 }
 
-/* Add Font Awesome CDN in your index.html or main template */
+.orientation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.orientation-message {
+  text-align: center;
+  color: white;
+  padding: 20px;
+}
+
+.rotate-phone-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 20px;
+  animation: rotate 2s infinite;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-90deg); }
+  75% { transform: rotate(-90deg); }
+  100% { transform: rotate(0deg); }
+}
+
 </style>

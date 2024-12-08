@@ -35,7 +35,10 @@
           :loop="false"
           @ended="onVideoEnded"
         />
-        <div class="slide-text">
+        <div 
+          class="slide-text"
+          :class="{ 'fade-out': !textVisible }"
+        >
           <span
             v-for="(word, index) in words"
             :key="`${currentIndex}-${index}`"
@@ -83,14 +86,59 @@
     </div>
 
     <button 
-      v-show="isTextDone"
-      class="replay-button"
+      class="control-button auto-play"
+      @click="toggleAutoPlay"
+      aria-label="Toggle auto play"
+    >
+      <svg v-if="!autoPlay" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path 
+          d="M5 3l14 9-14 9V3z"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path 
+          d="M6 4h4v16H6V4zM14 4h4v16h-4V4z"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <span>Auto<br>Play</span>
+    </button>
+
+    <button 
+      v-show="isTextDone && !autoPlay"
+      class="control-button replay"
       @click="replaySlide"
       aria-label="Replay slide"
     >
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
         <path 
           d="M3 12a9 9 0 1 1 2.83 6.54M3 12V8m0 4h4" 
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+
+    <button 
+      class="control-button speech-toggle"
+      @click="toggleSpeech"
+      aria-label="Toggle speech"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path v-if="!speechMuted"
+          d="M12 6L8 10H4v4h4l4 4V6z M16 8.5a5 5 0 0 1 0 7 M19 6a8 8 0 0 1 0 12"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path v-else
+          d="M12 6L8 10H4v4h4l4 4V6z M18 12l3-3 M18 12l3 3"
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -132,6 +180,9 @@ const nextSlideBg = computed(() => {
 
 const currentVideo = ref(null)
 const videoReady = ref(false)
+const autoPlay = ref(true)
+const textVisible = ref(true)
+const speechMuted = ref(false)
 
 function replaySlide() {
   isTextDone.value = false
@@ -149,7 +200,7 @@ function replaySlide() {
 }
 
 watch(currentSlide, () => {
-  prepareSlide()
+  //prepareSlide()
 }, { immediate: true })
 
 onMounted(() => {
@@ -167,51 +218,83 @@ onBeforeUnmount(() => {
   stop()
 })
 
+function resetCurrentVideo() {
+  if (currentVideo.value) {
+    currentVideo.value.pause();
+    currentVideo.value.currentTime = 0;
+  }
+}
+
 function prepareSlide() {
   stop()
+  resetCurrentVideo()
   words.value = currentSlide.value.text.split(' ')
   currentWordIndex.value = -1
   isTextDone.value = false
   videoReady.value = false
-  
-  // Handle video if present
+  textVisible.value = true
+  console.log('here',currentSlide.value,currentVideo.value);
   if (currentSlide.value.video && currentVideo.value) {
-    currentVideo.value.currentTime = 0
-    currentVideo.value.load() // Force video reload
+    currentVideo.value.load()
     
-    // Longer delay to show image first
     setTimeout(() => {
-      videoReady.value = true
-      currentVideo.value.play().catch(err => console.warn('Video playback failed:', err))
-      speak(
-        currentSlide.value.text,
-        (index) => currentWordIndex.value = index,
-        () => isTextDone.value = true
-      )
-    }, 1500) // Increased delay to 1.5s
+      if (!speechMuted.value) {
+        speak(
+          currentSlide.value.text,
+          (index) => currentWordIndex.value = index,
+          () => {
+            isTextDone.value = true
+            currentVideo.value.currentTime = 0;
+            videoReady.value = true
+            textVisible.value = false // Hide text when video starts
+            currentVideo.value.play().catch(err => console.warn('Video playback failed:', err))
+          }
+        )
+      } else {
+        isTextDone.value = true
+        videoReady.value = true
+        textVisible.value = false
+        currentVideo.value.play().catch(err => console.warn('Video playback failed:', err))
+      }
+    }, 500)
   } else {
-    // Start speech immediately for image-only slides
+    // Image-only slides behavior remains the same
     setTimeout(() => {
-      speak(
-        currentSlide.value.text,
-        (index) => currentWordIndex.value = index,
-        () => isTextDone.value = true
-      )
+      if (!speechMuted.value) {
+        speak(
+          currentSlide.value.text,
+          (index) => currentWordIndex.value = index,
+          () => {
+            isTextDone.value = true
+            if (autoPlay.value) {
+              // Add slight delay before moving to next slide for image-only slides
+              setTimeout(() => nextSlide(), 1500)
+            }
+          }
+        )
+      } else {
+        isTextDone.value = true
+        if (autoPlay.value) {
+          setTimeout(() => nextSlide(), 1500)
+        }
+      }
     }, 500)
   }
 }
 
 function onVideoEnded() {
-  // Empty function - let video naturally hold its last frame
+  if (autoPlay.value) {
+   setTimeout(() => {
+      nextSlide()
+    }, 300)       
+  }
 }
 
 function nextSlide() {
   if (currentIndex.value < props.slides.length - 1 && !isTransitioning.value) {
     isTransitioning.value = true
     videoReady.value = false
-    if (currentVideo.value) {
-      currentVideo.value.pause()
-    }
+    resetCurrentVideo()
     stop()
     
     currentIndex.value++
@@ -227,9 +310,7 @@ function previousSlide() {
   if (currentIndex.value > 0 && !isTransitioning.value) {
     isTransitioning.value = true
     videoReady.value = false
-    if (currentVideo.value) {
-      currentVideo.value.pause()
-    }
+    resetCurrentVideo()
     stop()
     
     currentIndex.value--
@@ -238,6 +319,27 @@ function previousSlide() {
       isTransitioning.value = false
       prepareSlide()
     }, 500)
+  }
+}
+
+function toggleAutoPlay() {
+  autoPlay.value = !autoPlay.value
+  if (autoPlay.value && isTextDone.value) {
+    if (currentVideo.value) {
+      videoReady.value = true
+      currentVideo.value.play().catch(err => console.warn('Video playback failed:', err))
+    } else {
+      nextSlide()
+    }
+  }
+}
+
+function toggleSpeech() {
+  speechMuted.value = !speechMuted.value
+  if (speechMuted.value) {
+    stop()
+  } else if (!isTextDone.value) {
+    prepareSlide() // Restart speech for current slide
   }
 }
 </script>
@@ -283,6 +385,8 @@ function previousSlide() {
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(2px);
   z-index: 3;
+  opacity: 1;
+  transition: opacity 0.5s ease;
 }
 
 .slide-text span {
@@ -297,6 +401,11 @@ function previousSlide() {
   padding: 0.1em 0.2em;
   border-radius: 4px;
   transform: scale(1.1);
+}
+
+.slide-text.fade-out {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .controls {
@@ -342,10 +451,11 @@ function previousSlide() {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
 }
 
-.replay-button {
+/* Replace the existing replay-button styles with these */
+.control-button.auto-play,
+.control-button.replay {
   position: fixed;
   bottom: 2rem;
-  right: 2rem;
   width: 48px;
   height: 48px;
   background: rgba(0, 0, 0, 0.5);
@@ -358,14 +468,27 @@ function previousSlide() {
   justify-content: center;
   transition: all 0.3s ease;
   z-index: 4;
+  pointer-events: auto;
+  transform: none; /* Remove the translateY that was affecting these buttons */
+  top:auto;
 }
 
-.replay-button:hover {
+.control-button.auto-play {
+  right: 2rem;
+}
+
+.control-button.replay {
+  right: 6rem;
+}
+
+.control-button.auto-play:hover,
+.control-button.replay:hover {
   background: rgba(0, 0, 0, 0.7);
   transform: scale(1.1);
 }
 
-.replay-button svg {
+.control-button.auto-play svg,
+.control-button.replay svg {
   width: 24px;
   height: 24px;
 }
@@ -419,7 +542,7 @@ function previousSlide() {
 video.slide-media {
   z-index: 2;
   opacity: 0;
-  transition: opacity 1s ease;
+  /*transition: opacity 1s ease;*/
 }
 
 video.slide-media.video-ready {
@@ -438,5 +561,50 @@ video.slide-media.video-ready {
   .control-button.right {
     right: 0.5rem;
   }
+}
+.control-button.auto-play span{
+   position: absolute;
+   text-transform: uppercase;
+   font-size:12px;
+   opacity:0.6;
+   font-weight:bold;
+   top:10px;
+}
+
+/* Replace the speech-toggle button styles */
+.control-button.speech-toggle {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  width: 48px;
+  height: 48px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 4;
+  pointer-events: auto;
+  transform: none; /* Reset any transform */
+  top: auto;
+}
+
+.control-button.speech-toggle:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: scale(1.1); /* Only scale, no translation */
+}
+
+/* Make sure span behaves the same as auto-play span */
+.control-button.speech-toggle span {
+  position: absolute;
+  text-transform: uppercase;
+  font-size: 12px;
+  opacity: 0.6;
+  font-weight: bold;
+  top: 10px;
 }
 </style>
