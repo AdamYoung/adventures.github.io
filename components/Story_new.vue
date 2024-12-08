@@ -815,7 +815,7 @@ video.slide-media.video-ready {
   }
 
   .control-button.auto-play span {
-    font-size: clamp(8px, 2vw, 12px);
+    font-size: clamp(8px, 2vw, 10px);
   }
 }
 
