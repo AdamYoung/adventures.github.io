@@ -1,6 +1,7 @@
 <!-- pages/index.vue -->
 <template>
   <div class="home">
+    <div class="background"></div>
     <div ref="textContainer" class="text-container">
       <machine-gun
          :text="`A world of wonder awaits. Get ready for the epic adventures of Mya and Khita!`"
@@ -56,7 +57,22 @@ const handleComplete = () => {
 </script>
 
 <style scoped>
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('forestBg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
 .text-container {
+  position: relative;
+  z-index: 1;
   overflow: hidden;
   width: 100%;
   /*max-width: 800px;*/
@@ -75,6 +91,7 @@ const handleComplete = () => {
    justify-content:center;
    align-items: center;
 }
+
 machine-gun { 
   width: 100%;
   display: block;

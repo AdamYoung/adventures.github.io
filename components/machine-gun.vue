@@ -97,7 +97,7 @@ onMounted(() => {
    position: relative;
    width: 100%;
    aspect-ratio: 8/3;
-   background-color: #000;
+   background-color: rgba(0,0,0,0.6);
    margin: auto;
    overflow: hidden;
    display: flex;
