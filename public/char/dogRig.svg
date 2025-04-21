@@ -1,0 +1,125 @@
+<svg id="dog-rig" viewBox="0 0 150 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      /* Visible skeleton styles */
+      .bone { stroke: #333; stroke-width: 2.5; stroke-linecap: round; }
+      .joint { fill: #e74c3c; /* Red joints */ }
+
+      /* Transform Origins - Essential for correct rotation */
+      #dog-head { transform-origin: 115px 30px; } /* Neck base */
+      #dog-tail { transform-origin: 30px 40px; } /* Tail base */
+      #dog-tail-segment-2 { transform-origin: 15px 45px; } /* First tail joint */
+
+      #dog-leg-fl { transform-origin: 100px 45px; } /* Front Left Shoulder */
+      #dog-lower-leg-fl { transform-origin: 105px 65px; } /* Front Left Elbow */
+      #dog-paw-fl { transform-origin: 108px 85px; } /* Front Left Wrist */
+
+      #dog-leg-fr { transform-origin: 100px 55px; } /* Front Right Shoulder */
+      #dog-lower-leg-fr { transform-origin: 105px 75px; } /* Front Right Elbow */
+      #dog-paw-fr { transform-origin: 108px 95px; } /* Front Right Wrist */
+
+      #dog-leg-rl { transform-origin: 40px 45px; } /* Rear Left Hip */
+      #dog-lower-leg-rl { transform-origin: 35px 65px; } /* Rear Left Knee */
+      #dog-hock-rl { transform-origin: 40px 85px; } /* Rear Left Hock */
+      #dog-paw-rl { transform-origin: 35px 95px; } /* Rear Left Ankle */
+
+      #dog-leg-rr { transform-origin: 40px 55px; } /* Rear Right Hip */
+      #dog-lower-leg-rr { transform-origin: 35px 75px; } /* Rear Right Knee */
+      #dog-hock-rr { transform-origin: 40px 95px; } /* Rear Right Hock */
+      #dog-paw-rr { transform-origin: 35px 105px; } /* Rear Right Ankle */
+
+      /* Main group for overall movement */
+       #dog-skeleton { transform-origin: 70px 50px; } /* Approx center of mass */
+    </style>
+  </defs>
+
+  <g id="dog-skeleton">
+    <!-- Torso -->
+    <line id="dog-spine" class="bone" x1="30" y1="40" x2="100" y2="50" />
+    <circle id="dog-tail-base-joint" class="joint" cx="30" cy="40" r="3"/>
+    <circle id="dog-shoulder-center-joint" class="joint" cx="100" cy="50" r="3"/>
+    <line id="dog-neck-bone" class="bone" x1="100" y1="50" x2="115" y2="30" />
+    <circle id="dog-neck-base-joint" class="joint" cx="115" cy="30" r="3"/>
+
+    <!-- Head -->
+    <g id="dog-head">
+      <line id="dog-head-bone" class="bone" x1="115" y1="30" x2="135" y2="25" />
+      <circle id="dog-head-joint" class="joint" cx="135" cy="25" r="5"/> <!-- Slightly larger head joint -->
+    </g>
+
+    <!-- Tail -->
+    <g id="dog-tail">
+       <line id="dog-tail-bone-1" class="bone" x1="30" y1="40" x2="15" y2="45" />
+        <g id="dog-tail-segment-2">
+           <circle id="dog-tail-joint-1" class="joint" cx="15" cy="45" r="2"/>
+           <line id="dog-tail-bone-2" class="bone" x1="15" y1="45" x2="5" y2="48" />
+           <circle id="dog-tail-joint-2" class="joint" cx="5" cy="48" r="1.5"/>
+        </g>
+    </g>
+
+    <!-- Front Left Leg -->
+    <g id="dog-leg-fl">
+      <circle id="dog-shoulder-fl-joint" class="joint" cx="100" cy="45" r="3"/>
+      <line id="dog-upper-leg-fl-bone" class="bone" x1="100" y1="45" x2="105" y2="65" />
+      <g id="dog-lower-leg-fl">
+        <circle id="dog-elbow-fl-joint" class="joint" cx="105" cy="65" r="3"/>
+        <line id="dog-lower-leg-fl-bone" class="bone" x1="105" y1="65" x2="108" y2="85" />
+        <g id="dog-paw-fl">
+          <circle id="dog-wrist-fl-joint" class="joint" cx="108" cy="85" r="2.5"/>
+          <line id="dog-paw-fl-bone" class="bone" x1="108" y1="85" x2="115" y2="90" />
+        </g>
+      </g>
+    </g>
+
+    <!-- Front Right Leg (Slightly offset Y for perspective) -->
+     <g id="dog-leg-fr">
+      <circle id="dog-shoulder-fr-joint" class="joint" cx="100" cy="55" r="3"/>
+      <line id="dog-upper-leg-fr-bone" class="bone" x1="100" y1="55" x2="105" y2="75" />
+      <g id="dog-lower-leg-fr">
+        <circle id="dog-elbow-fr-joint" class="joint" cx="105" cy="75" r="3"/>
+        <line id="dog-lower-leg-fr-bone" class="bone" x1="105" y1="75" x2="108" y2="95" />
+        <g id="dog-paw-fr">
+          <circle id="dog-wrist-fr-joint" class="joint" cx="108" cy="95" r="2.5"/>
+          <line id="dog-paw-fr-bone" class="bone" x1="108" y1="95" x2="115" y2="100" />
+        </g>
+      </g>
+    </g>
+
+    <!-- Rear Left Leg -->
+     <g id="dog-leg-rl">
+      <circle id="dog-hip-rl-joint" class="joint" cx="40" cy="45" r="3"/>
+      <line id="dog-thigh-rl-bone" class="bone" x1="40" y1="45" x2="35" y2="65" />
+      <g id="dog-lower-leg-rl">
+        <circle id="dog-knee-rl-joint" class="joint" cx="35" cy="65" r="3"/>
+        <line id="dog-calf-rl-bone" class="bone" x1="35" y1="65" x2="40" y2="85" /> <!-- To Hock joint -->
+        <g id="dog-hock-rl">
+           <circle id="dog-hock-rl-joint" class="joint" cx="40" cy="85" r="2.5"/>
+           <line id="dog-metatarsal-rl-bone" class="bone" x1="40" y1="85" x2="35" y2="95" /> <!-- To Ankle joint -->
+            <g id="dog-paw-rl">
+              <circle id="dog-ankle-rl-joint" class="joint" cx="35" cy="95" r="2.5"/>
+              <line id="dog-paw-rl-bone" class="bone" x1="35" y1="95" x2="42" y2="100" />
+           </g>
+        </g>
+      </g>
+    </g>
+
+    <!-- Rear Right Leg (Slightly offset Y) -->
+     <g id="dog-leg-rr">
+      <circle id="dog-hip-rr-joint" class="joint" cx="40" cy="55" r="3"/>
+      <line id="dog-thigh-rr-bone" class="bone" x1="40" y1="55" x2="35" y2="75" />
+      <g id="dog-lower-leg-rr">
+        <circle id="dog-knee-rr-joint" class="joint" cx="35" cy="75" r="3"/>
+        <line id="dog-calf-rr-bone" class="bone" x1="35" y1="75" x2="40" y2="95" /> <!-- To Hock joint -->
+        <g id="dog-hock-rr">
+           <circle id="dog-hock-rr-joint" class="joint" cx="40" cy="95" r="2.5"/>
+           <line id="dog-metatarsal-rr-bone" class="bone" x1="40" y1="95" x2="35" y2="105" /> <!-- To Ankle joint -->
+            <g id="dog-paw-rr">
+              <circle id="dog-ankle-rr-joint" class="joint" cx="35" cy="105" r="2.5"/>
+              <line id="dog-paw-rr-bone" class="bone" x1="35" y1="105" x2="42" y2="110" />
+           </g>
+        </g>
+      </g>
+    </g>
+
+  </g>
+</svg>

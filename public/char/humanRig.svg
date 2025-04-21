@@ -1,0 +1,96 @@
+<svg id="human-rig" viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      /* Visible skeleton styles */
+      .bone { stroke: #333; stroke-width: 2.5; stroke-linecap: round; }
+      .joint { fill: #3498db; /* Blue joints */ }
+
+      /* Transform Origins - Essential for correct rotation */
+      #human-head { transform-origin: 50px 35px; } /* Neck joint */
+      #human-arm-l { transform-origin: 40px 45px; } /* Shoulder L */
+      #human-lower-arm-l { transform-origin: 30px 60px; } /* Elbow L */
+      #human-hand-l { transform-origin: 25px 75px; } /* Wrist L */
+      #human-arm-r { transform-origin: 60px 45px; } /* Shoulder R */
+      #human-lower-arm-r { transform-origin: 70px 60px; } /* Elbow R */
+      #human-hand-r { transform-origin: 75px 75px; } /* Wrist R */
+      #human-leg-l { transform-origin: 45px 85px; } /* Hip L */
+      #human-lower-leg-l { transform-origin: 40px 110px; } /* Knee L */
+      #human-foot-l { transform-origin: 38px 135px; } /* Ankle L */
+      #human-leg-r { transform-origin: 55px 85px; } /* Hip R */
+      #human-lower-leg-r { transform-origin: 60px 110px; } /* Knee R */
+      #human-foot-r { transform-origin: 62px 135px; } /* Ankle R */
+
+      /* Main group for overall movement */
+      #human-skeleton { transform-origin: 50px 85px; } /* Approx hip center */
+    </style>
+  </defs>
+
+  <g id="human-skeleton">
+    <!-- Torso/Core -->
+    <line id="human-spine" class="bone" x1="50" y1="35" x2="50" y2="85" />
+    <circle id="human-neck-joint" class="joint" cx="50" cy="35" r="3"/>
+    <circle id="human-hip-center-joint" class="joint" cx="50" cy="85" r="3"/>
+
+    <!-- Head -->
+    <g id="human-head">
+      <line id="human-neck-bone" class="bone" x1="50" y1="35" x2="50" y2="25" />
+      <circle id="human-head-joint" class="joint" cx="50" cy="25" r="5"/> <!-- Slightly larger head joint -->
+    </g>
+
+    <!-- Left Arm -->
+    <g id="human-arm-l">
+       <circle id="human-shoulder-l-joint" class="joint" cx="40" cy="45" r="3"/>
+       <line id="human-upper-arm-l-bone" class="bone" x1="40" y1="45" x2="30" y2="60" />
+       <g id="human-lower-arm-l">
+         <circle id="human-elbow-l-joint" class="joint" cx="30" cy="60" r="3"/>
+         <line id="human-lower-arm-l-bone" class="bone" x1="30" y1="60" x2="25" y2="75" />
+         <g id="human-hand-l">
+           <circle id="human-wrist-l-joint" class="joint" cx="25" cy="75" r="2.5"/>
+           <line id="human-hand-l-bone" class="bone" x1="25" y1="75" x2="23" y2="85" />
+         </g>
+       </g>
+    </g>
+
+    <!-- Right Arm (Similar to Left) -->
+    <g id="human-arm-r">
+       <circle id="human-shoulder-r-joint" class="joint" cx="60" cy="45" r="3"/>
+       <line id="human-upper-arm-r-bone" class="bone" x1="60" y1="45" x2="70" y2="60" />
+       <g id="human-lower-arm-r">
+         <circle id="human-elbow-r-joint" class="joint" cx="70" cy="60" r="3"/>
+         <line id="human-lower-arm-r-bone" class="bone" x1="70" y1="60" x2="75" y2="75" />
+         <g id="human-hand-r">
+           <circle id="human-wrist-r-joint" class="joint" cx="75" cy="75" r="2.5"/>
+           <line id="human-hand-r-bone" class="bone" x1="75" y1="75" x2="77" y2="85" />
+         </g>
+       </g>
+    </g>
+
+    <!-- Left Leg -->
+    <g id="human-leg-l">
+       <circle id="human-hip-l-joint" class="joint" cx="45" cy="85" r="3"/>
+       <line id="human-thigh-l-bone" class="bone" x1="45" y1="85" x2="40" y2="110" />
+       <g id="human-lower-leg-l">
+          <circle id="human-knee-l-joint" class="joint" cx="40" cy="110" r="3"/>
+          <line id="human-calf-l-bone" class="bone" x1="40" y1="110" x2="38" y2="135" />
+          <g id="human-foot-l">
+             <circle id="human-ankle-l-joint" class="joint" cx="38" cy="135" r="2.5"/>
+             <line id="human-foot-l-bone" class="bone" x1="38" y1="135" x2="45" y2="140" /> <!-- Slightly longer foot bone -->
+          </g>
+       </g>
+    </g>
+
+    <!-- Right Leg (Similar to Left) -->
+    <g id="human-leg-r">
+       <circle id="human-hip-r-joint" class="joint" cx="55" cy="85" r="3"/>
+       <line id="human-thigh-r-bone" class="bone" x1="55" y1="85" x2="60" y2="110" />
+       <g id="human-lower-leg-r">
+          <circle id="human-knee-r-joint" class="joint" cx="60" cy="110" r="3"/>
+          <line id="human-calf-r-bone" class="bone" x1="60" y1="110" x2="62" y2="135" />
+          <g id="human-foot-r">
+             <circle id="human-ankle-r-joint" class="joint" cx="62" cy="135" r="2.5"/>
+             <line id="human-foot-r-bone" class="bone" x1="62" y1="135" x2="55" y2="140" /> <!-- Slightly longer foot bone -->
+          </g>
+       </g>
+    </g>
+  </g>
+</svg>

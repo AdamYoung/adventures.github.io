@@ -26,6 +26,7 @@
         <NuxtLink to="/shapes" @click="toggleMenu">Teaser</NuxtLink>
         <NuxtLink to="/storyNew" @click="toggleMenu">Story</NuxtLink>        
         <NuxtLink to="/story" @click="toggleMenu">Story (Orig)</NuxtLink>
+        <NuxtLink to="/storyEaster" @click="toggleMenu">Story Easter</NuxtLink>        
       </div>
     </div>
     <slot />
