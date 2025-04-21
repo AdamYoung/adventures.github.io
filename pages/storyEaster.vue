@@ -7,9 +7,9 @@
  <script setup>
 
 var  slides = [
-        {image:"easter/page_1.png",audio:"",video:"easter/page_1.mp4",videoStart:4.2,text:""},
-        {image:"easter/page_2.png",audio:"",video:"easter/page_2.mp4",videoStart:5.5,text:""},
-        {image:"easter/page_3.png",audio:"",video:"easter/page_3.mp4",videoStart:6.2,text:""},        
+        {image:"easter/page_1.png",audio:"",video:"",videoStart:4.2,text:""},
+        {image:"easter/page_3.png",audio:"",video:"easter/page_3.mp4",videoStart:6.2,text:""},                
+        {image:"easter/page_2.png",audio:"",video:"easter/page_2.mp4",videoStart:5.5,text:""},        
         {image:"easter/page_4.png",audio:"",video:"easter/page_4.mp4",videoStart:5.4,text:""},
         {image:"easter/page_5.png",audio:"",video:"easter/page_5.mp4",videoStart:6.2,text:""},
         {image:"easter/page_6.png",audio:"",video:"easter/page_6.mp4",videoStart:7.1,text:""},
